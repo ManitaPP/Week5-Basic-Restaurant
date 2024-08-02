@@ -1,12 +1,17 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { OrderService } from './order.service';
 
-@Controller()
+@Controller('order')
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get()
-  getHello(): string {
-    return this.orderService.getHello();
+  @Post()
+  createOrder(@Body() orderItems: { menuItemId: number; quantity: number }[]) {
+    return this.orderService.createOrder(orderItems);
+  }
+
+  @Get(':id')
+  getOrder(@Param('id') id: string) {
+    return this.orderService.getOrder(+id);
   }
 }
